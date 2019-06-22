@@ -1,0 +1,89 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Maiintest {
+
+	// now create a method where we are removing the character from the string
+	public static int maxStringChain(List<String> list) {
+		// lets start with the Single String
+		int count = 0;
+		HashSet<Integer> set = new HashSet<>();
+		for (int i = 0; i < list.size(); i++) {
+			count = 0;
+			if (list.get(i).length() <= 1) {
+				count = 0;
+			} else {
+
+				String str = list.get(i);
+				char ch[] = str.toCharArray();
+
+				for (int j = 0; j < ch.length; j++) {
+					String str1 = removeChar(str, ch[j]);
+					boolean check = checkString(list, str1);
+					if (check == true) {
+						count++;
+					}
+				}
+			}
+		}
+		set.add(count);// set is used to remove the duplicacy
+		int max = displayCount(set);
+		return max;
+
+	}
+
+	public static int displayCount(Set<Integer> set) {
+		// here we need to retrun the maximum count
+		int max = -1;
+		for (Integer ss : set) {
+			if (ss > max) {
+				max = ss;
+
+			}
+		}
+		return max;
+	}
+
+	public static String removeChar(String str, char target) {
+		int index = str.indexOf(target);
+		if (index < 0)
+
+			return str;
+		else {
+			return removeChar(str.substring(0, index) + str.substring(index + 1), target);
+		}
+	}
+
+	
+	public static boolean checkString(List<String> list, String str) 
+	{
+
+		for (String str1 : list) {
+			if (str1.equals(str))
+				return true;
+		}
+
+		return false;
+
+	}
+
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("ba");
+		list.add("bca");
+		list.add("bda");
+		list.add("dca");
+		list.add("bdc");
+
+		list.add("bdca");
+
+		int max = maxStringChain(list);
+
+		System.out.println("Max difference is " + max);
+
+	}
+}
